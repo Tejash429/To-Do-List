@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
     <script
       src="https://kit.fontawesome.com/e65482dfca.js"
       crossorigin="anonymous"
@@ -14,28 +15,37 @@
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <h1>TO-DO LIST</h1>
-        <div class="input">
-          <input
-            type="text"
-            class="inputTodo"
-            name="todo"
-            placeholder="What you want do do"
-          />
-          <button type="button" class="addBtn">Add</button>
+      <form class="submit">
+        <center><h1 style="color: white">TO-DO LIST</h1></center>
+        <div class="header">
+          <div class="input">
+            <input
+              type="text"
+              class="inputTodo"
+              name="todo"
+              placeholder="Enter your new todo"
+            />
+            <button type="button" class="addBtn">Add</button>
+          </div>
         </div>
-      </div>
-      <div class="todos">
-        <div class="anime">
-          <lottie-player
-            src="https://assets6.lottiefiles.com/packages/lf20_mznpnepo.json"
-            background="white"
-            speed="0.5"
-            style="width: 300px; height: 300px"
-            autoplay
-          ></lottie-player>
+        <div class="todos">
+          <div class="anime">
+            <lottie-player
+              src="https://assets6.lottiefiles.com/packages/lf20_mznpnepo.json"
+              background="white"
+              speed="0.5"
+              style="width: 300px; height: 300px"
+              autoplay
+            ></lottie-player>
+          </div>
         </div>
+      </form>
+      <div class="pending-task">
+        <span style="margin: 9px 0 9px 10px"
+          >You have <span class="pending-num" name="pending-num">no</span> tasks
+          pending</span
+        >
+        <button class="clear-button">Clear All</button>
       </div>
     </div>
     <script src="script.js"></script>
