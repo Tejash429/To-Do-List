@@ -91,9 +91,10 @@ function handleStatus(e) {
 //Deleting all task
 const task = document.querySelector('.todo');
 clearBtn.addEventListener('click', () => {
-  localStorage.clear();
-  todos.splice(0);
-  todoContainer.innerHTML = `
+  if (todos.length !== 0) {
+    localStorage.clear();
+    todos.splice(0);
+    todoContainer.innerHTML = `
   <div class="anime">
   <lottie-player
     src="https://assets6.lottiefiles.com/packages/lf20_mznpnepo.json"
@@ -103,6 +104,8 @@ clearBtn.addEventListener('click', () => {
     autoplay
   ></lottie-player>
   `;
-
-  allTasks();
+    allTasks();
+  } else {
+    alert('There are no todos to delete');
+  }
 });
