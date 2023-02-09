@@ -31,7 +31,6 @@ body {
   border-top-right-radius: 5px;
   height: 400px;
   overflow-y: auto;
-  cursor: pointer;
 }
 
 .todos .todo input {
@@ -97,6 +96,10 @@ button:hover {
   background-color: #ffff;
   margin-left: 1rem;
   transition: 0.4s;
+}
+
+.todo:hover {
+  cursor: pointer;
 }
 
 .fa {
