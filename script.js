@@ -28,23 +28,6 @@ function allTasks() {
   pendingNum.textContent = tasks.length === 0 ? 'no' : tasks.length;
 }
 
-//Creating a New Todo
-const createTodoElement = ({ todo }) => {
-  todoContainer.innerHTML += `
-  <div class="todo list pending" onclick="handleStatus(this)">
-  <div class="mix " >
-    <input type="checkbox" name="checkbox" class="checkBtn" id="1">
-    <p class="task">${todo}</p>
-    </div>
-    <div class="delete">
-    <i class="fa-light fa-trash  deleteBtn fa"></i>  
-    </div>
-  </div>`;
-  allTasks();
-};
-
-todos.forEach(createTodoElement);
-
 //Adding a New Todo
 const onSubmit = () => {
   if (inputTodo.value === '') {
@@ -58,6 +41,36 @@ const onSubmit = () => {
     }
   }
 };
+
+//Creating a New Todo
+const createTodoElement = ({ todo, isDone, id }) => {
+  if (isDone) {
+    todoContainer.innerHTML += `
+  <div class="todo list " id=${id} onclick="handleStatus(this,${isDone})">
+  <div class="mix " >
+    <input type="checkbox" name="checkbox" class="checkBtn"  checked >
+    <p class="task">${todo}</p>
+    </div>
+    <div class="delete">
+    <i class="fa-light fa-trash  deleteBtn fa"></i>  
+    </div>
+  </div>`;
+  } else {
+    todoContainer.innerHTML += `
+  <div class="todo list pending" id=${id} onclick="handleStatus(this,${isDone})">
+  <div class="mix " >
+    <input type="checkbox" name="checkbox" class="checkBtn" >
+    <p class="task">${todo}</p>
+    </div>
+    <div class="delete">
+    <i class="fa-light fa-trash  deleteBtn fa"></i>  
+    </div>
+  </div>`;
+    allTasks();
+  }
+};
+
+todos.forEach(createTodoElement);
 
 formSubmit.onsubmit = e => {
   e.preventDefault();
@@ -80,9 +93,15 @@ function deleteTodo(i) {
 }
 
 //Check UnCheck
-function handleStatus(e) {
-  localStorage.setItem('isDone', JSON.stringify(true));
-  const checkbox = e.querySelector('input'); //getting checkbox
+function handleStatus(e, isDone) {
+  if (e.classList.contains('pending')) {
+    todos[e.id].isDone = true;
+  } else {
+    todos[e.id].isDone = false;
+  }
+
+  localStorage.setItem('todos', JSON.stringify(todos));
+  const checkbox = e.querySelector('input');
   checkbox.checked = checkbox.checked ? false : true;
   e.classList.toggle('pending');
   allTasks();
