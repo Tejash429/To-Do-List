@@ -30,10 +30,13 @@ function allTasks() {
 
 //Adding a New Todo
 const onSubmit = () => {
-  if (inputTodo.value === '') {
+  const trimedTodo = inputTodo.value.trim();
+  if (trimedTodo === '') {
     alert('Enter a Todo');
+    inputTodo.value = '';
   } else {
-    const newTodo = addTodo(inputTodo.value, todos.length, false);
+    const trimedTodo = inputTodo.value.trim();
+    const newTodo = addTodo(trimedTodo, todos.length, false);
     createTodoElement(newTodo);
     inputTodo.value = '';
     if (todos.length !== 0) {
