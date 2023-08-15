@@ -7,8 +7,31 @@ const formSubmit = document.querySelector('.submit');
 const pendingNum = document.querySelector('.pending-num');
 const clearBtn = document.querySelector('.clear-button');
 const anime = document.querySelector('.anime');
-
 const todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+addBtn.addEventListener('click', function () {
+  onSubmit();
+});
+
+const onSubmit = () => {
+  const trimedTodo = inputTodo.value.trim();
+  if (trimedTodo === '') {
+    alert('Enter a Todo');
+    inputTodo.value = '';
+  } else {
+    const newTodo = addTodo(trimedTodo, todos.length, false);
+    createTodoElement(newTodo);
+    inputTodo.value = '';
+    if (todos.length !== 0) {
+      anime.style.display = 'none';
+    }
+  }
+};
+//Work on Enter
+formSubmit.onsubmit = e => {
+  e.preventDefault();
+  onSubmit();
+};
 
 if (todos.length !== 0) {
   anime.style.display = 'none';
@@ -29,21 +52,6 @@ function allTasks() {
 }
 
 //Adding a New Todo
-const onSubmit = () => {
-  const trimedTodo = inputTodo.value.trim();
-  if (trimedTodo === '') {
-    alert('Enter a Todo');
-    inputTodo.value = '';
-  } else {
-    const trimedTodo = inputTodo.value.trim();
-    const newTodo = addTodo(trimedTodo, todos.length, false);
-    createTodoElement(newTodo);
-    inputTodo.value = '';
-    if (todos.length !== 0) {
-      anime.style.display = 'none';
-    }
-  }
-};
 
 //Creating a New Todo
 const createTodoElement = ({ todo, isDone, id }) => {
@@ -51,7 +59,7 @@ const createTodoElement = ({ todo, isDone, id }) => {
     todoContainer.innerHTML += `
   <div class="todo list " id=${id} onclick="handleStatus(this,${isDone})">
   <div class="mix " >
-    <input type="checkbox" name="checkbox" class="checkBtn"  checked >
+    <input type="checkbox" name="checkbox" class="checkBtn"   checked>
     <p class="task">${todo}</p>
     </div>
     <div class="delete">
@@ -66,7 +74,7 @@ const createTodoElement = ({ todo, isDone, id }) => {
     <p class="task">${todo}</p>
     </div>
     <div class="delete">
-    <i class="fa-light fa-trash  deleteBtn fa"></i>  
+    <i class="fa-light fa-trash  deleteBtn fa"></i>
     </div>
   </div>`;
     allTasks();
@@ -74,14 +82,6 @@ const createTodoElement = ({ todo, isDone, id }) => {
 };
 
 todos.forEach(createTodoElement);
-
-formSubmit.onsubmit = e => {
-  e.preventDefault();
-  onSubmit();
-};
-addBtn.addEventListener('click', function () {
-  onSubmit();
-});
 
 //Delete Todo.
 const delBtn = document.querySelectorAll('.deleteBtn');
@@ -98,16 +98,24 @@ function deleteTodo(i) {
 //Check UnCheck
 function handleStatus(e, isDone) {
   if (e.classList.contains('pending')) {
-    todos[e.id].isDone = true;
+    todos.forEach(todo => {
+      if (todo.id == e.id) {
+        todo.isDone = true;
+      }
+    });
   } else {
-    todos[e.id].isDone = false;
+    todos.forEach(todo => {
+      if (todo.id == e.id) {
+        todo.isDone = false;
+      }
+    });
   }
 
-  localStorage.setItem('todos', JSON.stringify(todos));
   const checkbox = e.querySelector('input');
   checkbox.checked = checkbox.checked ? false : true;
   e.classList.toggle('pending');
   allTasks();
+  localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 //Deleting all task
